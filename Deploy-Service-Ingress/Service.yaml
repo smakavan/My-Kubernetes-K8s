@@ -10,3 +10,17 @@ spec:
     - port: 8085   # expose 8080
       targetPort: 8085
   type: ClusterIP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+  #namespace: production
+spec:
+  selector:
+    app: backend
+  ports:
+    - port: 8086  # expose 8080
+      targetPort: 8086
+  type: ClusterIP
