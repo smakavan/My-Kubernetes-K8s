@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: demo
+data:
+  db: vertica
+  user: sachin
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-config
+  labels:
+    app: test
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: test
+  template:
+    metadata:
+      labels:
+        app: test
+    spec:
+      containers:
+        - name: my-app
+          image: busybox
+          command:
+            - sh
+            - -c
+            - echo Mode=$DB User=$User && sleep 360
+          env:
+            - name: DB
+              valueFrom:
+                configMapKeyRef:
+                  name: demo
+                  key: db
+            - name: User
+              valueFrom:
+                configMapKeyRef:
+                  name: demo
+                  key: user
