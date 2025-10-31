@@ -32,3 +32,24 @@ spec:
         - name: config-volume
           configMap:
             name: myconfig
+
+# If your app expects a single config file, use configMap.data["config.properties"]
+
+Example:
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: myconfig
+data:
+  config.properties: |
+    dbname=prod-db-test
+    dbport=8080
+
+
+Then mount:
+
+volumeMounts:
+- name: config-volume
+  mountPath: "/etc/config/config.properties"
+  subPath: config.properties
