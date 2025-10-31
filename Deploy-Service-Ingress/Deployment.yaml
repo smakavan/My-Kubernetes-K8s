@@ -18,3 +18,28 @@ spec:
           image: myacrkrishnasachin30.azurecr.io/frontend:latest
           ports:
             - containerPort: 8085
+          env:
+            - name: BACKEND
+              value: http://backend-service:8086
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+  #namespace: production
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend
+          image: myacrkrishnasachin30.azurecr.io/backend:latest
+          ports:
+            - containerPort: 8086
